@@ -43,7 +43,7 @@ struct LIGHT {
 // Offset is the letter (e.g. A = 0, B = 1)
 // Value is the LED address (e.g. 0 is the first light, 1 is the second, etc.)
 // This allows you to map the address on the light strand to the letter - note the lights wrap
-// at letter H in the movie, so while H is 
+// at letter H in the movie, so while H is obviously after G, numerically in the strand it is not
 LIGHT PIN_LETTER_MAP[] = { {0,  WHITE},    // A
                            {1,  BLUE},     // B
                            {2,  PURPLE},   // C
