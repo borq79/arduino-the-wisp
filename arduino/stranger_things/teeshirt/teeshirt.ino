@@ -45,69 +45,37 @@ struct LIGHT {
 // Value is the LED address (e.g. 0 is the first light, 1 is the second, etc.)
 // This allows you to map the address on the light strand to the letter - note the lights wrap
 // at letter H in the movie, so while H is obviously after G, numerically in the strand it is not
-LIGHT PIN_LETTER_MAP[] = { {0,  WHITE},    // A
-                           {1,  BLUE},     // B
-                           {2,  PURPLE},   // C
-                           {3,  TEAL},     // D
-                           {4,  INDIGO},   // E
-                           {5,  YELLOW},   // F
-                           {6,  PINK},     // G
-                           {7,  TEAL},     // H
-                           {16, TEAL},     // I
-                           {15, PURPLE},   // J
-                           {14, TEAL},     // K
-                           {13, WHITE},    // L
-                           {12, YELLOW},   // M
-                           {11, PINK},     // N
-                           {10, PURPLE},   // O
-                           {9,  WHITE},    // P
-                           {8,  PINK},     // Q
-                           {17, TEAL},     // R
-                           {18, WHITE},    // S
-                           {19, YELLOW},   // T
-                           {20, BLUE},     // U
-                           {21, PINK},     // V
-                           {22, BLUE},     // W
-                           {23, YELLOW},   // X
-                           {24, PINK},     // Y
-                           {25, PURPLE}    // Z
-  };
-
-// Offset is the letter (e.g. A = 0, B = 1)
-// Value is the LED address (e.g. 0 is the first light, 1 is the second, etc.)
-// This allows you to map the address on the light strand to the letter - note the lights wrap
-// at letter H in the movie, so while H is obviously after G, numerically in the strand it is not
 // This strand map is for a shirt that starts at Z rather than A so that you can wire it up to exit
 // at the bottom of the shirt
-LIGHT PIN_LETTER_MAP_BOTTOM_UP [] = {{25,  RED},    // A
-                                     {24,  GREEN},  // B
-                                     {23,  BLUE},   // C
-                                     {22,  YELLOW}, // D
-                                     {21,  RED},    // E
-                                     {20,  GREEN},  // F
-                                     {19,  BLUE},   // G
-                                     {18,  YELLOW}, // H
-                                     {9,   YELLOW}, // I
-                                     {10,  BLUE},   // J
-                                     {11,  GREEN},  // K
-                                     {12,  RED},    // L
-                                     {13,  YELLOW}, // M
-                                     {14,  BLUE},   // N
-                                     {15,  GREEN},  // O
-                                     {16,  RED},    // P
-                                     {17,  YELLOW}, // Q
-                                     {8,   RED},    // R
-                                     {7,   GREEN},  // S
-                                     {6,   BLUE},   // T
-                                     {5,   YELLOW}, // U
-                                     {4,   RED},    // V
-                                     {3,   GREEN},  // W
-                                     {2,   BLUE},   // X
-                                     {1,   YELLOW}, // Y
-                                     {0,   RED}     // Z
+LIGHT PIN_LETTER_MAP [] = {{25,  RED},    // A
+                           {24,  GREEN},  // B
+                           {23,  BLUE},   // C
+                           {22,  YELLOW}, // D
+                           {21,  RED},    // E
+                           {20,  GREEN},  // F
+                           {19,  BLUE},   // G
+                           {18,  YELLOW}, // H
+                           {9,   YELLOW}, // I
+                           {10,  BLUE},   // J
+                           {11,  GREEN},  // K
+                           {12,  RED},    // L
+                           {13,  YELLOW}, // M
+                           {14,  BLUE},   // N
+                           {15,  GREEN},  // O
+                           {16,  RED},    // P
+                           {17,  YELLOW}, // Q
+                           {8,   RED},    // R
+                           {7,   GREEN},  // S
+                           {6,   BLUE},   // T
+                           {5,   YELLOW}, // U
+                           {4,   RED},    // V
+                           {3,   GREEN},  // W
+                           {2,   BLUE},   // X
+                           {1,   YELLOW}, // Y
+                           {0,   RED}     // Z
   };
 
-char* PHRASES[]={"Right Here", "Run", "Happy Halloween", "Cub Scouts", "Mighty Vikings", "Goofy Gators"};
+char* PHRASES[]={"Right Here", "Run", "Happy Halloween"};
 #define NUM_PHRASES  (sizeof(PHRASES) / sizeof(char*))
 #define SIZE_OF_MAP NUM_PIXEL
 long phraseCounter = 0;
@@ -148,7 +116,7 @@ void loop() {
     Serial.println("Light up letter " + String(letter) + " (" + String(letter) + ") at index " + String(letterIndex));
 
     if (letterIndex >= 0) {
-      LIGHT light = PIN_LETTER_MAP_BOTTOM_UP[letterIndex];
+      LIGHT light = PIN_LETTER_MAP[letterIndex];
       //Serial.println("Setting LED " + String(light.addr) + " to R/G/B: " + String(light.color.r & BRIGHTNESS) + "/" + String(light.color.g & BRIGHTNESS) + "/" + String(light.color.b & BRIGHTNESS));
       strip.setPixelColor(light.addr, (light.color.r & BRIGHTNESS), (light.color.g & BRIGHTNESS), (light.color.b & BRIGHTNESS));
       strip.show();
@@ -172,7 +140,7 @@ void loop() {
 
 void flashAllLights() {
   for(int i = 0; i < SIZE_OF_MAP; i++) {
-    LIGHT light = PIN_LETTER_MAP_BOTTOM_UP[i];
+    LIGHT light = PIN_LETTER_MAP[i];
     strip.setPixelColor(light.addr, (light.color.r & BRIGHTNESS), (light.color.g & BRIGHTNESS), (light.color.b & BRIGHTNESS));
   }
   
@@ -193,7 +161,7 @@ void enablePartyMode() {
   
     for(int i = 0; i < numOfLights; i++) {
       int lightToEnable = (int)random(0, NUM_PIXEL);
-      LIGHT light = PIN_LETTER_MAP_BOTTOM_UP[lightToEnable];
+      LIGHT light = PIN_LETTER_MAP[lightToEnable];
       strip.setPixelColor(light.addr, (light.color.r & BRIGHTNESS), (light.color.g & BRIGHTNESS), (light.color.b & BRIGHTNESS));
     }
     
@@ -210,7 +178,7 @@ void enablePartyMode() {
 
 void turnOnAllLights() {
   for(int i = 0; i < SIZE_OF_MAP; i++) {
-    LIGHT light = PIN_LETTER_MAP_BOTTOM_UP[i];
+    LIGHT light = PIN_LETTER_MAP[i];
     strip.setPixelColor(light.addr, (light.color.r & BRIGHTNESS), (light.color.g & BRIGHTNESS), (light.color.b & BRIGHTNESS));
   }
   
